@@ -141,9 +141,12 @@ const Projects = () => {
 
       <ProjectFormModal
         open={isProjectModalOpen}
-        onClose={closeProjectModal}
-        onSuccess={fetchProjects}
         project={selectedProject}
+        onClose={closeProjectModal}
+        onSuccess={async () => {
+          await fetchProjects();
+          await refreshDashboard();
+        }}
       />
     </>
   );

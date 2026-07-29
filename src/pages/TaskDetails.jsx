@@ -1,6 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import TaskComments from "../components/tasks/TaskComments";
+import TaskComments from "../components/task-details-page/TaskComments";
+import PageBackButton from "../components/task-details-page/PageBackButton";
+import TaskHeader from "../components/task-details-page/TaskHeader";
+import TaskDescription from "../components/task-details-page/TaskDescription";
+import TaskInformation from "../components/task-details-page/TaskInformation";
+
+import {
+  formatDate,
+  formatDateTime,
+  formatHours,
+  formatText,
+} from "../components/task-details-page/commonFunctions";
+
 import {
   AlertCircle,
   ArrowLeft,
@@ -31,7 +43,6 @@ const TaskDetailsPage = () => {
 
       const response = await getTaskById(taskId);
 
-      // Use this when service returns complete Axios response:
       setTask(response.data.data);
     } catch (error) {
       toast.error(
@@ -69,15 +80,30 @@ const TaskDetailsPage = () => {
 
   return (
     <div className="mx-auto w-full max-w-7xl space-y-5">
-      <PageBackButton onClick={() => navigate(-1)} />
+      {/* saprate component */}
+      <PageBackButton ArrowLeft={ArrowLeft} onClick={() => navigate(-1)} />
 
-      <TaskHeader task={task} isOverdue={isOverdue} onEdit={handleEditTask} />
+      {/* saprate component */}
+      <TaskHeader
+        task={task}
+        isOverdue={isOverdue}
+        onEdit={handleEditTask}
+        StatusBadge={StatusBadge}
+        PriorityBadge={PriorityBadge}
+        HeaderStat={HeaderStat}
+      />
 
       <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-5">
-          <TaskDescription description={task.description} />
+          {/* saprate component */}
+          <TaskDescription description={task.description} InfoItem={InfoItem} />
 
-          <TaskInformation task={task} isOverdue={isOverdue} />
+          {/* saprate component */}
+          <TaskInformation
+            InfoItem={InfoItem}
+            task={task}
+            isOverdue={isOverdue}
+          />
 
           <TaskComments taskId={task._id} />
         </div>
@@ -96,91 +122,6 @@ const TaskDetailsPage = () => {
         </div>
       </div>
     </div>
-  );
-};
-
-const PageBackButton = ({ onClick }) => {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="inline-flex items-center gap-2 rounded-lg px-1 py-1 text-sm font-medium text-gray-600 transition hover:text-gray-900"
-    >
-      <ArrowLeft size={18} />
-      Back to tasks
-    </button>
-  );
-};
-
-const TaskHeader = ({ task, isOverdue, onEdit }) => {
-  return (
-    <section className="overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm">
-      <div className="border-b border-gray-100 p-5 sm:p-6">
-        <div className="flex flex-col justify-between gap-5 lg:flex-row lg:items-start">
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <p className="text-sm font-medium text-gray-500">Task Details</p>
-
-              {isOverdue && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700">
-                  <AlertCircle size={13} />
-                  Overdue
-                </span>
-              )}
-            </div>
-
-            <h1 className="mt-2 break-words text-2xl font-bold tracking-tight text-slate-800 sm:text-3xl">
-              {task.title}
-            </h1>
-
-            <p className="mt-2 text-sm text-gray-500">
-              Created {formatDate(task.createdAt)}
-            </p>
-
-            <div className="mt-5 flex flex-wrap items-center gap-2">
-              <StatusBadge status={task.status} />
-              <PriorityBadge priority={task.priority} />
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={onEdit}
-            className="cursor-pointer inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-blue-500 px-4 py-2.5 text-sm font-semibold text-white"
-          >
-            <Pencil size={16} />
-            Edit Task
-          </button>
-        </div>
-      </div>
-
-      <div className="grid divide-y divide-gray-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
-        <HeaderStat
-          label="Status"
-          value={formatText(task.status)}
-          icon={<CheckCircle2 size={18} />}
-        />
-
-        <HeaderStat
-          label="Priority"
-          value={formatText(task.priority)}
-          icon={<AlertCircle size={18} />}
-        />
-
-        <HeaderStat
-          label="Due Date"
-          value={formatDate(task.dueDate)}
-          icon={<CalendarDays size={18} />}
-          danger={isOverdue}
-        />
-
-        <HeaderStat
-          label="Estimated Time"
-          value={formatHours(task.estimatedHours, "Not specified")}
-          icon={<Clock3 size={18} />}
-        />
-      </div>
-    </section>
   );
 };
 
@@ -210,89 +151,6 @@ const HeaderStat = ({ label, value, icon, danger = false }) => {
   );
 };
 
-const TaskDescription = ({ description }) => {
-  return (
-    <section className="rounded-md border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-gray-600">
-          <MessageSquareText size={19} />
-        </div>
-
-        <div>
-          <h2 className="text-base font-semibold text-gray-900">Description</h2>
-
-          <p className="text-xs text-gray-500">
-            Task requirements and expected work
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-5 rounded-xl bg-gray-50 p-4">
-        <p className="whitespace-pre-line text-sm leading-7 text-gray-700">
-          {description || "No description has been provided for this task."}
-        </p>
-      </div>
-    </section>
-  );
-};
-
-const TaskInformation = ({ task, isOverdue }) => {
-  return (
-    <section className="rounded-md border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
-      <div>
-        <h2 className="text-base font-semibold text-gray-900">
-          Task Information
-        </h2>
-
-        <p className="mt-1 text-xs text-gray-500">
-          Schedule, work hours and progress information
-        </p>
-      </div>
-
-      <div className="mt-6 grid gap-x-6 gap-y-5 sm:grid-cols-2">
-        <InfoItem
-          icon={<CalendarDays size={18} />}
-          label="Due Date"
-          value={formatDate(task.dueDate)}
-          danger={isOverdue}
-        />
-
-        <InfoItem
-          icon={<Clock3 size={18} />}
-          label="Estimated Hours"
-          value={formatHours(task.estimatedHours, "Not specified")}
-        />
-
-        <InfoItem
-          icon={<Clock3 size={18} />}
-          label="Actual Hours"
-          value={formatHours(task.actualHours, "Not recorded")}
-        />
-
-        <InfoItem
-          icon={<CalendarDays size={18} />}
-          label="Created On"
-          value={formatDate(task.createdAt)}
-        />
-
-        <InfoItem
-          icon={<CalendarDays size={18} />}
-          label="Last Updated"
-          value={formatDate(task.updatedAt)}
-        />
-
-        {task.completedAt && (
-          <InfoItem
-            icon={<CheckCircle2 size={18} />}
-            label="Completed On"
-            value={formatDate(task.completedAt)}
-          />
-        )}
-      </div>
-    </section>
-  );
-};
-
 const InfoItem = ({ icon, label, value, secondaryValue, danger = false }) => {
   const hasValue = value !== null && value !== undefined && value !== "";
 
@@ -310,7 +168,7 @@ const InfoItem = ({ icon, label, value, secondaryValue, danger = false }) => {
         <p className="text-xs font-medium text-gray-500">{label}</p>
 
         <p
-          className={`mt-1 break-words text-sm font-semibold ${
+          className={`mt-1 wrap-break-word text-sm font-semibold ${
             danger ? "text-red-600" : "text-gray-900"
           }`}
         >
@@ -318,7 +176,7 @@ const InfoItem = ({ icon, label, value, secondaryValue, danger = false }) => {
         </p>
 
         {secondaryValue && (
-          <p className="mt-1 break-words text-xs text-gray-500">
+          <p className="mt-1 wrap-break-word text-xs text-gray-500">
             {secondaryValue}
           </p>
         )}
@@ -573,58 +431,6 @@ const TaskDetailsSkeleton = () => {
       </div>
     </div>
   );
-};
-
-const formatDate = (date) => {
-  if (!date) return "Not specified";
-
-  const parsedDate = new Date(date);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return "Invalid date";
-  }
-
-  return new Intl.DateTimeFormat("en-US", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(parsedDate);
-};
-
-const formatDateTime = (date) => {
-  if (!date) return "Not available";
-
-  const parsedDate = new Date(date);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return "Invalid date";
-  }
-
-  return new Intl.DateTimeFormat("en-US", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(parsedDate);
-};
-
-const formatHours = (hours, fallback) => {
-  if (hours === null || hours === undefined) {
-    return fallback;
-  }
-
-  return `${hours} ${Number(hours) === 1 ? "hour" : "hours"}`;
-};
-
-const formatText = (value) => {
-  if (!value) return "Not available";
-
-  return value
-    .toLowerCase()
-    .split("_")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
 };
 
 const getStatusStyle = (status) => {

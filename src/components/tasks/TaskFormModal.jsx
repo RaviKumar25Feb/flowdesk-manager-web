@@ -56,7 +56,7 @@ const TaskFormModal = ({ open, onClose, onSuccess, task }) => {
         setLoadingProjects(true);
 
         const response = await getProjectOptions();
-        console.log(response)
+        console.log(response);
 
         setProjects(response.data.data || []);
       } catch (error) {

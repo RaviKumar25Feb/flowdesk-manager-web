@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { getTasks } from "../services/task.service";
+import { getProjectOptions } from "../services/project.service";
 import { useDashboard } from "../context/DashboardContext";
 
 import TasksHeader from "../components/tasks/TasksHeader";
@@ -20,6 +21,7 @@ const Tasks = () => {
   const [search, setSearch] = useState("");
 
   const [project, setProject] = useState("ALL");
+  const [projects, setProjects] = useState([]);
   const [status, setStatus] = useState("ALL");
   const [priority, setPriority] = useState("ALL");
 
@@ -46,6 +48,21 @@ const Tasks = () => {
     setSelectedTask(null);
     setIsTaskModalOpen(false);
   };
+
+  const fetchProjectOptions = async () => {
+    try {
+      const response = await getProjectOptions();
+
+      if (response.data.success) {
+        setProjects(response.data.data);
+      }
+    } catch (error) {
+      console.error(error.response?.data || error.message);
+    }
+  };
+  useEffect(() => {
+    fetchProjectOptions();
+  }, []);
 
   const fetchTasks = async () => {
     try {
@@ -119,6 +136,7 @@ const Tasks = () => {
           search={searchInput}
           onSearch={handleSearch}
           project={project}
+          projects={projects}
           onProjectChange={handleProject}
           status={status}
           onStatusChange={handleStatus}
