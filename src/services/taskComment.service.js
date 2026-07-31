@@ -2,20 +2,20 @@ import api from "../api/axios";
 
 //done
 export const getTaskComments = (taskId) => {
-  return api.get(`/taskComment/${taskId}/comments`);
+  return api.get(`/taskDiscussion/${taskId}/discussions`);
 };
 
 //done
 export const createTaskComment = (taskId, data) => {
-  return api.post(`/taskComment/${taskId}/comments`, data);
+  return api.post(`/taskDiscussion/${taskId}/discussions`, data);
 };
 
 //done
 export const updateTaskComment = (commentId, data) => {
-  return api.patch(`/taskComment/${commentId}`, data);
+  return api.patch(`/taskDiscussion/${commentId}`, data);
 };
 
 //done
 export const deleteTaskComment = (commentId) => {
-  return api.delete(`/taskComment/${commentId}`);
+  return api.delete(`/taskDiscussion/${commentId}`);
 };
