@@ -2,7 +2,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import {
-  getDevelopers,
+  getAvailableDevelopers,
   getAssignedDevelopers,
   assignDevelopers,
 } from "../../services/team.service";
@@ -22,7 +22,7 @@ const AssignDeveloperModal = ({ open, project, onClose, onSuccess }) => {
         setLoading(true);
 
         const [developersRes, assignedRes] = await Promise.all([
-          getDevelopers(),
+          getAvailableDevelopers(),
           getAssignedDevelopers(project._id),
         ]);
 
