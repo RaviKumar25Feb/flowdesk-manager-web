@@ -90,7 +90,7 @@ function Login() {
         {/* Header */}
         <div className="shrink-0">
           <h1 className="text-4xl font-bold tracking-tight text-white">
-            FlowDesk
+            Devolyt
           </h1>
 
           <p className="mt-2 text-sm font-medium tracking-[0.15em] text-blue-200">
@@ -121,7 +121,7 @@ function Login() {
           </p>
 
           <p className="mt-1 text-xs uppercase tracking-widest text-blue-300/70">
-            FlowDesk © 2026
+            Devolyt © 2026
           </p>
         </div>
       </div>
