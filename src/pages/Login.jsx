@@ -216,9 +216,12 @@ function Login() {
               {isSubmitting ? <Spinner /> : "Log in"}
             </button>
 
-            <div className="w-full font-medium text-gray-800 text-center cursor-pointer rounded-full hover:bg-gray-200 py-3">
-              <Link to="#">Forgotten password?</Link>
-            </div>
+            <Link
+              to="/forgot-password"
+              className="group block w-full cursor-pointer rounded-full py-3 text-center font-medium text-blue-600 transition hover:bg-gray-200"
+            >
+              Forgot password?
+            </Link>
           </form>
           <div className="relative top-10">
             {formError && (

@@ -18,6 +18,8 @@ import Developers from "./pages/Developers";
 import DeveloperDetails from "./pages/DeveloperDetails";
 import Clients from "./pages/Clients";
 import ClientDetails from "./pages/ClientDetails";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const AppRoutes = () => {
   const { user, loading } = useAuth();
@@ -39,6 +41,8 @@ const AppRoutes = () => {
         path="/login"
         element={user ? <Navigate to="/dashboard" replace /> : <Login />}
       />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
 
       {/* Protected Route */}
       <Route
