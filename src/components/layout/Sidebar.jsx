@@ -62,7 +62,7 @@ const Sidebar = () => {
           <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
             <img
               src="/favicon.ico"
-              alt="FlowDesk"
+              alt="Devolyt"
               className="h-8 w-8 object-contain"
             />
           </div>
@@ -70,7 +70,7 @@ const Sidebar = () => {
           {/* Company Name */}
           <div className="flex flex-col">
             <h1 className="text-xl font-extrabold tracking-tight text-gray-900">
-              Flow<span className="text-blue-600">Desk</span>
+              Devo<span className="text-blue-600">lyt</span>
             </h1>
 
             <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-gray-400">

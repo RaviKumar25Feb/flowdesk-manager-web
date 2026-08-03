@@ -15,7 +15,7 @@ function WorkspaceSettings() {
             <FiBriefcase className="text-blue-600" />
             <div>
               <p className="font-medium">Workspace Name</p>
-              <p className="text-sm text-gray-500">FlowDesk</p>
+              <p className="text-sm text-gray-500">Devolyt</p>
             </div>
           </div>
         </div>
