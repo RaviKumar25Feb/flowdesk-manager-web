@@ -16,6 +16,8 @@ import TaskDetails from "./pages/TaskDetails";
 import ProjectDetails from "./pages/ProjectDetails";
 import Developers from "./pages/Developers";
 import DeveloperDetails from "./pages/DeveloperDetails";
+import Clients from "./pages/Clients";
+import ClientDetails from "./pages/ClientDetails";
 
 const AppRoutes = () => {
   const { user, loading } = useAuth();
@@ -52,6 +54,8 @@ const AppRoutes = () => {
         <Route path="tasks/:taskId" element={<TaskDetails />} />
         <Route path="developers" element={<Developers />} />
         <Route path="developers/:developerId" element={<DeveloperDetails />} />
+        <Route path="clients" element={<Clients />} />
+        <Route path="clients/:clientId" element={<ClientDetails />} />
       </Route>
 
       {/* 404 */}

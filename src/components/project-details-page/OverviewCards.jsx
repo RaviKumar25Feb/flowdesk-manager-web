@@ -39,7 +39,7 @@ const OverviewCards = ({ overview }) => {
         return (
           <div
             key={card.title}
-            className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm"
+            className="rounded-md border border-gray-200 bg-white p-5 shadow-sm"
           >
             <div className="flex items-center justify-between">
               <div>

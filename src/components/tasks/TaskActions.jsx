@@ -143,7 +143,7 @@ const TaskActions = ({ task, onViewTask, onEditTask, fetchTasks }) => {
                   setOpen(false);
                   onEditTask(task);
                 }}
-                className="flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-700 transition hover:bg-gray-50"
+                className="cursor-pointer flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-700 transition hover:bg-gray-50"
               >
                 <FiEdit2 />
                 Edit Task
@@ -157,7 +157,7 @@ const TaskActions = ({ task, onViewTask, onEditTask, fetchTasks }) => {
                   setOpen(false);
                   setShowDeleteModal(true);
                 }}
-                className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-600 transition hover:bg-red-50"
+                className="cursor-pointer flex w-full items-center gap-3 px-4 py-3 text-sm text-red-600 transition hover:bg-red-50"
               >
                 <FiTrash2 />
                 Delete Task

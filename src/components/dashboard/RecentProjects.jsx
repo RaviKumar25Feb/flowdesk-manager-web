@@ -109,8 +109,10 @@ const RecentProjects = ({ projects }) => {
                       <FiFolder className="text-lg text-blue-600" />
                     </div>
 
-                    <h3 className="truncate font-semibold text-gray-900">
-                      {project.name}
+                    <h3 className="truncate font-semibold text-gray-900 hover:text-blue-500">
+                      <Link to={`/dashboard/projects/${project._id}`}>
+                        {project.name}
+                      </Link>
                     </h3>
                   </div>
 

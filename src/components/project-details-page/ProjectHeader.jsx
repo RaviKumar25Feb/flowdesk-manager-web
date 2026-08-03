@@ -5,9 +5,11 @@ const ProjectHeader = ({
   HeaderInfo,
   formatDate,
   formatText,
+  onEditProject,
+  onAssignDevelopers,
 }) => {
   return (
-    <section className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+    <section className="rounded-md border border-gray-200 bg-white p-6 shadow-sm">
       <div className="flex flex-col justify-between gap-5 md:flex-row md:items-start">
         <div>
           <div className="mb-3 flex flex-wrap items-center gap-2">
@@ -25,6 +27,7 @@ const ProjectHeader = ({
         <div className="flex gap-2">
           <button
             type="button"
+            onClick={() => onEditProject(project)}
             className="cursor-pointer rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
           >
             Edit Project
@@ -32,6 +35,7 @@ const ProjectHeader = ({
 
           <button
             type="button"
+            onClick={() => onAssignDevelopers(project)}
             className="cursor-pointer rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-600"
           >
             Assign Developers

@@ -1,5 +1,6 @@
 import { FiCalendar } from "react-icons/fi";
 import TaskActions from "./TaskActions";
+import { Link } from "react-router-dom";
 
 const TaskRow = ({ task, onEditTask, fetchTasks }) => {
   const getPriorityStyle = (priority) => {
@@ -57,10 +58,12 @@ const TaskRow = ({ task, onEditTask, fetchTasks }) => {
       <td className="px-4 py-4">
         <div className="min-w-0">
           <h3
-            className="truncate text-sm font-semibold text-gray-900"
+            className="truncate text-sm font-semibold text-gray-900 hover:text-blue-500"
             title={task.title}
           >
-            {task.title}
+            <Link to={`/dashboard/tasks/${task._id}`}>
+              {task.title}
+            </Link>
           </h3>
 
           <p

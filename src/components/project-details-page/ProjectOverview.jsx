@@ -6,7 +6,7 @@ const ProjectOverview = ({
   formatText,
 }) => {
   return (
-    <section className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+    <section className="rounded-md border border-gray-200 bg-white p-6 shadow-sm">
       <h2 className="text-lg font-semibold text-gray-900">Project Overview</h2>
 
       <div className="mt-5">

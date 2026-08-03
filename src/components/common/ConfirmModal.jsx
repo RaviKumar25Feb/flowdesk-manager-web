@@ -47,7 +47,7 @@ const ConfirmModal = ({
           <button
             onClick={onCancel}
             disabled={loading}
-            className="rounded-lg p-2 transition hover:bg-gray-100 disabled:cursor-not-allowed"
+            className="cursor-pointer rounded-lg p-2 transition hover:bg-gray-100 disabled:cursor-not-allowed"
           >
             <FiX className="text-lg text-gray-500" />
           </button>
@@ -87,7 +87,7 @@ const ConfirmModal = ({
           <button
             onClick={onCancel}
             disabled={loading}
-            className="rounded-lg border border-gray-300 px-5 py-2.5 font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed"
+            className="cursor-pointer rounded-lg border border-gray-300 px-5 py-2.5 font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed"
           >
             {cancelText}
           </button>

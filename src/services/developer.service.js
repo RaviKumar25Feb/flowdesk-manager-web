@@ -37,3 +37,8 @@ export const deactivateDeveloper = (developerId) => {
 export const activateDeveloper = (developerId) => {
   return api.patch(`/users/${developerId}/activate`);
 };
+
+// Developer Overview
+export const getDevelopersOverview = () => {
+  return api.get("/users/developers/overview");
+};

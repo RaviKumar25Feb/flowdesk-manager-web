@@ -237,7 +237,7 @@ const ProjectFormModal = ({ open, project, onClose, onSuccess }) => {
                 value={formData.client}
                 onChange={handleChange}
                 disabled={loadingClients || submitting}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
+                className="w-full cursor-pointer rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
               >
                 <option value="">
                   {loadingClients ? "Loading clients..." : "Select Client"}
@@ -263,7 +263,7 @@ const ProjectFormModal = ({ open, project, onClose, onSuccess }) => {
                   value={formData.priority}
                   onChange={handleChange}
                   disabled={submitting}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
+                  className="w-full cursor-pointer rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
                 >
                   <option value="LOW">Low</option>
 
@@ -285,7 +285,7 @@ const ProjectFormModal = ({ open, project, onClose, onSuccess }) => {
                   value={formData.status}
                   onChange={handleChange}
                   disabled={submitting}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
+                  className="w-full cursor-pointer rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
                 >
                   <option value="PLANNING">Planning</option>
 
@@ -315,7 +315,7 @@ const ProjectFormModal = ({ open, project, onClose, onSuccess }) => {
                   value={formData.startDate}
                   onChange={handleChange}
                   disabled={submitting}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
+                  className="w-full cursor-pointer rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
                 />
               </div>
 
@@ -331,7 +331,7 @@ const ProjectFormModal = ({ open, project, onClose, onSuccess }) => {
                   onChange={handleChange}
                   min={formData.startDate || undefined}
                   disabled={submitting}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
+                  className="w-full cursor-pointer rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
                 />
               </div>
             </div>

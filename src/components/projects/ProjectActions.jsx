@@ -159,6 +159,7 @@ const ProjectActions = ({
               className="
           z-9999
           w-48
+          cursor-pointer
           overflow-hidden
           rounded-xl
           border
@@ -167,16 +168,6 @@ const ProjectActions = ({
           shadow-xl
         "
             >
-              {/* View */}
-              <Link
-                to={`/dashboard/projects/${project._id}`}
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 transition hover:bg-gray-50"
-              >
-                <FiEye />
-                View Project
-              </Link>
-
               {isArchivedView ? (
                 <>
                   <div className="border-t border-gray-100" />
@@ -186,7 +177,7 @@ const ProjectActions = ({
                       setOpen(false);
                       setShowRestoreModal(true);
                     }}
-                    className="flex w-full items-center gap-3 px-4 py-3 text-sm text-green-600 transition hover:bg-green-50"
+                    className="cursor-pointer flex w-full items-center gap-3 px-4 py-3 text-sm text-green-600 transition hover:bg-green-50"
                   >
                     <FiRotateCcw />
                     Restore Project
@@ -194,13 +185,22 @@ const ProjectActions = ({
                 </>
               ) : (
                 <>
+                  {/* View */}
+                  <Link
+                    to={`/dashboard/projects/${project._id}`}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 transition hover:bg-gray-50"
+                  >
+                    <FiEye />
+                    View Project
+                  </Link>
                   {/* Edit */}
                   <button
                     onClick={() => {
                       setOpen(false);
                       onEditProject(project);
                     }}
-                    className="flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-700 transition hover:bg-gray-50"
+                    className="flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-sm text-gray-700 transition hover:bg-gray-50"
                   >
                     <FiEdit2 />
                     Edit Project
@@ -212,7 +212,7 @@ const ProjectActions = ({
                       setOpen(false);
                       setShowAssignModal(true);
                     }}
-                    className="flex w-full items-center gap-3 px-4 py-3 text-sm text-gray-700 transition hover:bg-gray-50"
+                    className="flex cursor-pointer w-full items-center gap-3 px-4 py-3 text-sm text-gray-700 transition hover:bg-gray-50"
                   >
                     <FiUsers />
                     Assign Developer
@@ -226,7 +226,7 @@ const ProjectActions = ({
                       setOpen(false);
                       setShowArchivedModal(true);
                     }}
-                    className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-600 transition hover:bg-red-50"
+                    className="flex cursor-pointer w-full items-center gap-3 px-4 py-3 text-sm text-red-600 transition hover:bg-red-50"
                   >
                     <FiTrash2 />
                     Archive Project

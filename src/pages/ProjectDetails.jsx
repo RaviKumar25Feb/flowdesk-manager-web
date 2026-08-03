@@ -8,6 +8,8 @@ import ClientCard from "../components/project-details-page/ClientCard";
 import DevelopersCard from "../components/project-details-page/DevelopersCard";
 import ProjectDetailsLoading from "../components/project-details-page/ProjectDetailsLoading";
 import ProjectComments from "../components/project-details-page/ProjectComments";
+import ProjectFormModal from "../components/projects/ProjectFormModal";
+import AssignDeveloperModal from "../components/projects/AssignDeveloperModal";
 
 import {
   ArrowLeft,
@@ -28,6 +30,8 @@ const ProjectDetails = () => {
   const [project, setProject] = useState(null);
   const [overview, setOverview] = useState(null);
   const [recentTasks, setRecentTasks] = useState([]);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showAssignModal, setShowAssignModal] = useState(false);
 
   const [loading, setLoading] = useState(true);
 
@@ -53,6 +57,22 @@ const ProjectDetails = () => {
     }
   };
 
+  const handleEditProject = () => {
+    setShowEditModal(true);
+  };
+
+  const handleAssignDevelopers = () => {
+    setShowAssignModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+  };
+
+  const handleCloseAssignModal = () => {
+    setShowAssignModal(false);
+  };
+
   useEffect(() => {
     if (projectId) {
       fetchProjectDetails();
@@ -68,60 +88,76 @@ const ProjectDetails = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <button
-        type="button"
-        onClick={() => navigate("/projects")}
-        className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900"
-      >
-        <ArrowLeft size={18} />
-        Back to Projects
-      </button>{" "}
-      {/* saprate component */}
-      <ProjectHeader
-        project={project}
-        formatText={formatText}
-        PriorityBadge={PriorityBadge}
-        HeaderInfo={HeaderInfo}
-        formatDate={formatDate}
-        StatusBadge={StatusBadge}
-      />
-      {/* saprate component */}
-      <OverviewCards overview={overview} />
-      <div className="grid gap-6 xl:grid-cols-3">
-        <div className="space-y-6 xl:col-span-2">
-          {/* saprate component */}
-          <ProjectOverview
-            project={project}
-            formatText={formatText}
-            overview={overview}
-            StatItem={StatItem}
-            formatDate={formatDate}
-            formatDate={formatDate}
-          />
-          {/* saprate component */}
-          <RecentTasks
-            tasks={recentTasks}
-            StatusBadge={StatusBadge}
-            PriorityBadge={PriorityBadge}
-            formatDate={formatDate}
-          />
+    <>
+      <div className="space-y-6">
+        <button
+          type="button"
+          onClick={() => navigate("/dashboard/projects")}
+          className="inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900"
+        >
+          <ArrowLeft size={18} />
+          Back to Projects
+        </button>{" "}
+        {/* saprate component */}
+        <ProjectHeader
+          project={project}
+          formatText={formatText}
+          PriorityBadge={PriorityBadge}
+          HeaderInfo={HeaderInfo}
+          formatDate={formatDate}
+          StatusBadge={StatusBadge}
+          onEditProject={handleEditProject}
+          onAssignDevelopers={handleAssignDevelopers}
+        />
+        {/* saprate component */}
+        <OverviewCards overview={overview} />
+        <div className="grid gap-6 xl:grid-cols-3">
+          <div className="space-y-6 xl:col-span-2">
+            {/* saprate component */}
+            <ProjectOverview
+              project={project}
+              formatText={formatText}
+              overview={overview}
+              StatItem={StatItem}
+              formatDate={formatDate}
+            />
+            {/* saprate component */}
+            <RecentTasks
+              tasks={recentTasks}
+              StatusBadge={StatusBadge}
+              PriorityBadge={PriorityBadge}
+              formatDate={formatDate}
+            />
 
-          <ProjectComments projectId={projectId} />
-        </div>
+            <ProjectComments projectId={projectId} />
+          </div>
 
-        <div className="space-y-6">
-          {/* saprate component */}
-          <ClientCard client={project.client} UserAvatar={UserAvatar} />
+          <div className="space-y-6">
+            {/* saprate component */}
+            <ClientCard client={project.client} UserAvatar={UserAvatar} />
 
-          {/* saprate component */}
-          <DevelopersCard
-            UserAvatar={UserAvatar}
-            developers={project.developers || []}
-          />
+            {/* saprate component */}
+            <DevelopersCard
+              UserAvatar={UserAvatar}
+              developers={project.developers || []}
+            />
+          </div>
         </div>
       </div>
-    </div>
+      <ProjectFormModal
+        open={showEditModal}
+        project={project}
+        onClose={handleCloseEditModal}
+        onSuccess={fetchProjectDetails}
+      />
+
+      <AssignDeveloperModal
+        open={showAssignModal}
+        project={project}
+        onClose={handleCloseAssignModal}
+        onSuccess={fetchProjectDetails}
+      />
+    </>
   );
 };
 

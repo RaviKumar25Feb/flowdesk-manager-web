@@ -1,6 +1,12 @@
 import DeveloperActions from "./DeveloperActions";
+import { Link } from "react-router-dom";
 
-const DeveloperRow = ({ developer, onEditDeveloper, fetchDevelopers }) => {
+const DeveloperRow = ({
+  developer,
+  onEditDeveloper,
+  fetchDevelopers,
+  fetchOverview,
+}) => {
   const nameInitial = developer.name?.charAt(0).toUpperCase();
 
   const joinedDate = developer.createdAt
@@ -29,8 +35,10 @@ const DeveloperRow = ({ developer, onEditDeveloper, fetchDevelopers }) => {
           )}
 
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-gray-900">
-              {developer.name}
+            <p className="truncate text-sm font-semibold text-gray-900 hover:text-blue-500">
+              <Link to={`/dashboard/developers/${developer._id}`}>
+                {developer.name}
+              </Link>
             </p>
 
             <p className="truncate text-xs text-gray-500">{developer.email}</p>
@@ -92,6 +100,7 @@ const DeveloperRow = ({ developer, onEditDeveloper, fetchDevelopers }) => {
           developer={developer}
           onEditDeveloper={onEditDeveloper}
           fetchDevelopers={fetchDevelopers}
+          fetchOverview={fetchOverview}
         />
       </td>
     </tr>

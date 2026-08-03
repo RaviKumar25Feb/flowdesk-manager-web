@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 const DevelopersCard = ({ developers, UserAvatar }) => {
   return (
-    <section className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm">
+    <section className="rounded-md border border-gray-200 bg-white p-5 shadow-sm">
       <div className="flex items-center justify-between">
         <h2 className="font-semibold text-gray-900">Assigned Developers</h2>
 
@@ -18,8 +19,10 @@ const DevelopersCard = ({ developers, UserAvatar }) => {
               <UserAvatar user={developer} />
 
               <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-gray-900">
-                  {developer.name}
+                <p className="truncate text-sm font-semibold text-gray-900 hover:text-blue-500">
+                  <Link to={`/dashboard/developers/${developer._id}`}>
+                    {developer.name}
+                  </Link>
                 </p>
 
                 <p className="truncate text-xs text-gray-500">

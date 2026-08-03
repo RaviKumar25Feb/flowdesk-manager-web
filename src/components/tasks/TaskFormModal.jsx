@@ -56,7 +56,6 @@ const TaskFormModal = ({ open, onClose, onSuccess, task }) => {
         setLoadingProjects(true);
 
         const response = await getProjectOptions();
-        console.log(response);
 
         setProjects(response.data.data || []);
       } catch (error) {
@@ -163,7 +162,14 @@ const TaskFormModal = ({ open, onClose, onSuccess, task }) => {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget && !submitting) {
+          onClose();
+        }
+      }}
+    >
       <div className="max-h-[90vh] w-full max-w-lg overflow-hidden rounded-xl bg-white shadow-xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 px-6 py-3">
@@ -200,7 +206,7 @@ const TaskFormModal = ({ open, onClose, onSuccess, task }) => {
                 value={formData.project}
                 onChange={handleChange}
                 disabled={loadingProjects || submitting}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
+                className="cursor-pointer w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
               >
                 <option value="">
                   {loadingProjects ? "Loading projects..." : "Select Project"}
@@ -254,7 +260,7 @@ const TaskFormModal = ({ open, onClose, onSuccess, task }) => {
                   name="priority"
                   value={formData.priority}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="cursor-pointer w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 >
                   <option value="LOW">Low</option>
 
@@ -278,7 +284,7 @@ const TaskFormModal = ({ open, onClose, onSuccess, task }) => {
                   disabled={
                     !formData.project || loadingDevelopers || submitting
                   }
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
+                  className="cursor-pointer w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100"
                 >
                   <option value="">
                     {!formData.project
@@ -322,7 +328,7 @@ const TaskFormModal = ({ open, onClose, onSuccess, task }) => {
                   name="dueDate"
                   value={formData.dueDate}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  className="cursor-pointer w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
                 />
               </div>
             </div>

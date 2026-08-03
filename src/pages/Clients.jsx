@@ -2,54 +2,30 @@ import { useCallback, useEffect, useState } from "react";
 import { FiPlus, FiSearch } from "react-icons/fi";
 import { toast } from "sonner";
 
-import {
-  getDevelopers,
-  getDevelopersOverview,
-} from "../services/developer.service";
+import { getClients, getClientsOverview } from "../services/client.service";
 
-import DevelopersTable from "../components/developers/DevelopersTable";
+import ClientsTable from "../components/clients/ClientsTable";
 import Pagination from "../components/common/Pagination";
-import DeveloperFormModal from "../components/developers/DeveloperFormModal";
+import ClientFormModal from "../components/clients/ClientFormModal";
 
-const Developers = () => {
-  const [developers, setDevelopers] = useState([]);
+const Clients = () => {
+  const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("ALL");
 
-  const [showDeveloperModal, setShowDeveloperModal] = useState(false);
-  const [selectedDeveloper, setSelectedDeveloper] = useState(null);
+  const [showClientModal, setShowClientModal] = useState(false);
+  const [selectedClient, setSelectedClient] = useState(null);
 
   const [overview, setOverview] = useState({
-    totalDevelopers: 0,
-    activeDevelopers: 0,
-    inactiveDevelopers: 0,
+    totalClients: 0,
+    activeClients: 0,
+    inactiveClients: 0,
   });
 
   const [overviewLoading, setOverviewLoading] = useState(true);
-
-  const fetchOverview = useCallback(async () => {
-    try {
-      setOverviewLoading(true);
-
-      const response = await getDevelopersOverview();
-
-      setOverview(response.data.data);
-    } catch (error) {
-      console.error(
-        "Fetch Developers Overview Error:",
-        error.response?.data || error.message,
-      );
-    } finally {
-      setOverviewLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchOverview();
-  }, [fetchOverview]);
 
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -60,22 +36,32 @@ const Developers = () => {
     hasPrevPage: false,
   });
 
-  const handleAddDeveloper = () => {
-    setSelectedDeveloper(null);
-    setShowDeveloperModal(true);
-  };
+  const fetchOverview = useCallback(async () => {
+    try {
+      setOverviewLoading(true);
 
-  const handleEditDeveloper = (developer) => {
-    setSelectedDeveloper(developer);
-    setShowDeveloperModal(true);
-  };
+      const response = await getClientsOverview();
 
-  const handleCloseDeveloperModal = () => {
-    setShowDeveloperModal(false);
-    setSelectedDeveloper(null);
-  };
+      setOverview(response.data.data);
+    } catch (error) {
+      console.error(
+        "Fetch Clients Overview Error:",
+        error.response?.data || error.message,
+      );
 
-  const fetchDevelopers = useCallback(async () => {
+      toast.error(
+        error.response?.data?.message || "Failed to fetch clients overview.",
+      );
+    } finally {
+      setOverviewLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchOverview();
+  }, [fetchOverview]);
+
+  const fetchClients = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -88,38 +74,51 @@ const Developers = () => {
         order: "desc",
       };
 
-      const response = await getDevelopers(params);
+      const response = await getClients(params);
 
-      setDevelopers(response.data.data || []);
+      setClients(response.data.data || []);
 
-      setPagination((prev) => ({
-        ...prev,
+      setPagination((previous) => ({
+        ...previous,
         ...response.data.pagination,
       }));
     } catch (error) {
       console.error(
-        "Fetch Developers Error:",
+        "Fetch Clients Error:",
         error.response?.data || error.message,
       );
 
-      toast.error(
-        error.response?.data?.message || "Failed to fetch developers.",
-      );
+      toast.error(error.response?.data?.message || "Failed to fetch clients.");
     } finally {
       setLoading(false);
     }
   }, [pagination.currentPage, pagination.perPage, search, status]);
 
+  const handleAddClient = () => {
+    setSelectedClient(null);
+    setShowClientModal(true);
+  };
+
+  const handleEditClient = (client) => {
+    setSelectedClient(client);
+    setShowClientModal(true);
+  };
+
+  const handleCloseClientModal = () => {
+    setShowClientModal(false);
+    setSelectedClient(null);
+  };
+
   useEffect(() => {
-    fetchDevelopers();
-  }, [fetchDevelopers]);
+    fetchClients();
+  }, [fetchClients]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearch(searchInput.trim());
 
-      setPagination((prev) => ({
-        ...prev,
+      setPagination((previous) => ({
+        ...previous,
         currentPage: 1,
       }));
     }, 500);
@@ -130,15 +129,15 @@ const Developers = () => {
   const handleStatusChange = (event) => {
     setStatus(event.target.value);
 
-    setPagination((prev) => ({
-      ...prev,
+    setPagination((previous) => ({
+      ...previous,
       currentPage: 1,
     }));
   };
 
   const handlePageChange = (page) => {
-    setPagination((prev) => ({
-      ...prev,
+    setPagination((previous) => ({
+      ...previous,
       currentPage: page,
     }));
   };
@@ -149,39 +148,39 @@ const Developers = () => {
         {/* Header */}
         <div className="flex flex-col gap-4 rounded-md border border-gray-100 bg-gray-50 px-6 py-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Developers</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Clients</h1>
 
             <p className="mt-1 text-sm text-gray-500">
-              Manage developer accounts and view their work.
+              Manage client accounts and view assigned projects.
             </p>
           </div>
 
           <button
             type="button"
-            onClick={handleAddDeveloper}
+            onClick={handleAddClient}
             className="cursor-pointer inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
           >
             <FiPlus className="text-lg" />
-            Add Developer
+            Add Client
           </button>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <OverviewCard
-            title="Total Developers"
-            value={overview.totalDevelopers}
+            title="Total Clients"
+            value={overview.totalClients}
             loading={overviewLoading}
           />
 
           <OverviewCard
-            title="Active Developers"
-            value={overview.activeDevelopers}
+            title="Active Clients"
+            value={overview.activeClients}
             loading={overviewLoading}
           />
 
           <OverviewCard
-            title="Inactive Developers"
-            value={overview.inactiveDevelopers}
+            title="Inactive Clients"
+            value={overview.inactiveClients}
             loading={overviewLoading}
           />
         </div>
@@ -214,11 +213,11 @@ const Developers = () => {
         </div>
 
         {/* Table */}
-        <DevelopersTable
-          developers={developers}
+        <ClientsTable
+          clients={clients}
           loading={loading}
-          fetchDevelopers={fetchDevelopers}
-          onEditDeveloper={handleEditDeveloper}
+          fetchClients={fetchClients}
+          onEditClient={handleEditClient}
           fetchOverview={fetchOverview}
         />
 
@@ -230,11 +229,11 @@ const Developers = () => {
           />
         )}
       </div>
-      <DeveloperFormModal
-        open={showDeveloperModal}
-        developer={selectedDeveloper}
-        onClose={handleCloseDeveloperModal}
-        onSuccess={fetchDevelopers}
+      <ClientFormModal
+        open={showClientModal}
+        client={selectedClient}
+        onClose={handleCloseClientModal}
+        onSuccess={fetchClients}
         fetchOverview={fetchOverview}
       />
     </>
@@ -246,11 +245,11 @@ const OverviewCard = ({ title, value, loading }) => {
     <div className="rounded-md border border-gray-200 bg-gray-50 p-5 shadow-sm">
       <p className="text-sm font-medium text-gray-500">{title}</p>
 
-      <h3 className="mt-2 text-3xl font-bold text-gray-900">
+      <h2 className="mt-2 text-3xl font-bold text-gray-900">
         {loading ? "..." : value}
-      </h3>
+      </h2>
     </div>
   );
 };
 
-export default Developers;
+export default Clients;

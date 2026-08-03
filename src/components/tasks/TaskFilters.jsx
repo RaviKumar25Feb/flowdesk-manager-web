@@ -51,6 +51,7 @@ const TaskFilters = ({
             border-gray-200
             bg-white
             px-4
+            cursor-pointer
             py-2
             text-sm
             outline-none
@@ -75,6 +76,7 @@ const TaskFilters = ({
           className="
             rounded-lg
             border
+            cursor-pointer
             border-gray-200
             bg-white
             px-4
@@ -104,6 +106,7 @@ const TaskFilters = ({
             bg-white
             px-4
             py-2
+            cursor-pointer
             text-sm
             outline-none
             focus:border-blue-500

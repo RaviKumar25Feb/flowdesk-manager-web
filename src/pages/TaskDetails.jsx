@@ -5,6 +5,8 @@ import PageBackButton from "../components/task-details-page/PageBackButton";
 import TaskHeader from "../components/task-details-page/TaskHeader";
 import TaskDescription from "../components/task-details-page/TaskDescription";
 import TaskInformation from "../components/task-details-page/TaskInformation";
+import TaskFormModal from "../components/tasks/TaskFormModal";
+import { Link } from "react-router-dom";
 
 import {
   formatDate,
@@ -37,6 +39,8 @@ const TaskDetailsPage = () => {
   const [task, setTask] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const [showEditModal, setShowEditModal] = useState(false);
+
   const fetchTaskDetails = async () => {
     try {
       setLoading(true);
@@ -62,7 +66,11 @@ const TaskDetailsPage = () => {
   }, [taskId]);
 
   const handleEditTask = () => {
-    toast.info("Edit Task modal will be connected next.");
+    setShowEditModal(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
   };
 
   if (loading) {
@@ -79,49 +87,60 @@ const TaskDetailsPage = () => {
     new Date(task.dueDate) < new Date();
 
   return (
-    <div className="mx-auto w-full max-w-7xl space-y-5">
-      {/* saprate component */}
-      <PageBackButton ArrowLeft={ArrowLeft} onClick={() => navigate(-1)} />
+    <>
+      <div className="mx-auto w-full max-w-7xl space-y-5">
+        {/* saprate component */}
+        <PageBackButton ArrowLeft={ArrowLeft} onClick={() => navigate(-1)} />
 
-      {/* saprate component */}
-      <TaskHeader
-        task={task}
-        isOverdue={isOverdue}
-        onEdit={handleEditTask}
-        StatusBadge={StatusBadge}
-        PriorityBadge={PriorityBadge}
-        HeaderStat={HeaderStat}
-      />
+        {/* saprate component */}
+        <TaskHeader
+          task={task}
+          isOverdue={isOverdue}
+          onEdit={handleEditTask}
+          StatusBadge={StatusBadge}
+          PriorityBadge={PriorityBadge}
+          HeaderStat={HeaderStat}
+        />
 
-      <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
-        <div className="space-y-5">
-          {/* saprate component */}
-          <TaskDescription description={task.description} InfoItem={InfoItem} />
+        <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="space-y-5">
+            {/* saprate component */}
+            <TaskDescription
+              description={task.description}
+              InfoItem={InfoItem}
+            />
 
-          {/* saprate component */}
-          <TaskInformation
-            InfoItem={InfoItem}
-            task={task}
-            isOverdue={isOverdue}
-          />
+            {/* saprate component */}
+            <TaskInformation
+              InfoItem={InfoItem}
+              task={task}
+              isOverdue={isOverdue}
+            />
 
-          <TaskComments taskId={task._id} />
-        </div>
+            <TaskComments taskId={task._id} />
+          </div>
 
-        <div className="space-y-5 xl:sticky xl:top-5">
-          <ProjectCard
-            project={task.project}
-            onViewProject={() =>
-              navigate(`/dashboard/projects/${task.project?._id}`)
-            }
-          />
+          <div className="space-y-5 xl:sticky xl:top-5">
+            <ProjectCard
+              project={task.project}
+              onViewProject={() =>
+                navigate(`/dashboard/projects/${task.project?._id}`)
+              }
+            />
 
-          <AssignedDeveloperCard developer={task.assignedTo} />
+            <AssignedDeveloperCard developer={task.assignedTo} />
 
-          <CreatedByCard user={task.createdBy} />
+            <CreatedByCard user={task.createdBy} />
+          </div>
         </div>
       </div>
-    </div>
+      <TaskFormModal
+        open={showEditModal}
+        task={task}
+        onClose={handleCloseEditModal}
+        onSuccess={fetchTaskDetails}
+      />
+    </>
   );
 };
 
@@ -198,8 +217,10 @@ const ProjectCard = ({ project, onViewProject }) => {
             Associated Project
           </p>
 
-          <h3 className="mt-0.5 truncate text-sm font-semibold text-gray-900">
-            {project?.name || "Project not available"}
+          <h3 className="mt-0.5 truncate text-sm font-semibold text-gray-900 hover:text-blue-500">
+            <Link to={`/dashboard/projects/${project._id}`}>
+              {project?.name || "Project not available"}
+            </Link>
           </h3>
         </div>
       </div>
@@ -264,8 +285,10 @@ const AssignedDeveloperCard = ({ developer }) => {
         )}
 
         <div className="min-w-0">
-          <p className="truncate text-sm font-semibold text-gray-900">
-            {developer?.name || "Not assigned"}
+          <p className="truncate text-sm font-semibold text-gray-900 hover:text-blue-500">
+            <Link to={`/dashboard/developers/${developer._id}`}>
+              {developer?.name || "Not assigned"}
+            </Link>
           </p>
 
           {developer?.email && (

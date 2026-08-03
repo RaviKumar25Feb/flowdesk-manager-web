@@ -1,4 +1,5 @@
 import { FiAlertCircle, FiCalendar } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const UpcomingDeadlines = ({ deadlines }) => {
   const getPriorityColor = (priority) => {
@@ -109,8 +110,10 @@ const UpcomingDeadlines = ({ deadlines }) => {
                 <div className="flex items-start justify-between gap-4">
                   {/* Left */}
                   <div className="min-w-0 flex-1">
-                    <h3 className="truncate font-semibold text-gray-900">
-                      {task.title}
+                    <h3 className="truncate font-semibold text-gray-900 hover:text-blue-500">
+                      <Link to={`/dashboard/tasks/${task._id}`}>
+                        {task.title}
+                      </Link>
                     </h3>
 
                     <p className="mt-1 text-sm text-gray-500">

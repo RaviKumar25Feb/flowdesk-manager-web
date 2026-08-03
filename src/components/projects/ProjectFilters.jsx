@@ -45,6 +45,7 @@ const ProjectFilters = ({
           className="
             rounded-lg
             border
+            cursor-pointer
             border-gray-200
             bg-white
             px-4
@@ -78,6 +79,7 @@ const ProjectFilters = ({
             py-2
             text-sm
             outline-none
+            cursor-pointer
             focus:border-blue-500
             focus:ring-2
             focus:ring-blue-100

@@ -138,8 +138,10 @@ const RecentTasks = ({ tasks }) => {
               >
                 {/* Title */}
 
-                <h3 className="truncate text-base font-semibold text-gray-900">
-                  {task.title}
+                <h3 className="truncate text-base font-semibold text-gray-900 hover:text-blue-500">
+                  <Link to={`/dashboard/tasks/${task._id}`}>
+                    {task.title}
+                  </Link>
                 </h3>
 
                 {/* Project */}

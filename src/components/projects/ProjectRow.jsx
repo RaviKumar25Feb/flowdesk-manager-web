@@ -1,5 +1,6 @@
 import { FiFolder, FiCalendar } from "react-icons/fi";
 import ProjectActions from "./ProjectActions";
+import { Link } from "react-router-dom";
 
 const ProjectRow = ({ project, onEditProject, fetchProjects, status }) => {
   const getStatusStyle = (status) => {
@@ -109,8 +110,10 @@ const ProjectRow = ({ project, onEditProject, fetchProjects, status }) => {
           </div>
 
           <div className="min-w-0">
-            <h3 className="truncate text-sm font-semibold text-gray-900">
-              {project.name}
+            <h3 className="truncate text-sm font-semibold text-gray-900 hover:text-blue-500">
+              <Link to={`/dashboard/projects/${project._id}`}>
+                {project.name}
+              </Link>
             </h3>
 
             <p className="mt-1 text-xs text-gray-500">

@@ -1,23 +1,21 @@
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-import { FiX } from "react-icons/fi";
+// src/components/clients/ClientFormModal.jsx
 
-import {
-  createDeveloper,
-  updateDeveloper,
-} from "../../services/developer.service";
+import { useEffect, useState } from "react";
+import { FiX } from "react-icons/fi";
+import { toast } from "sonner";
+
+import { createClient, updateClient } from "../../services/client.service";
 
 import { useDashboard } from "../../context/DashboardContext";
 
-const DeveloperFormModal = ({
+const ClientFormModal = ({
   open,
-  developer = null,
+  client = null,
   onClose,
   onSuccess,
   fetchOverview,
 }) => {
-  const isEditMode = Boolean(developer);
-
+  const isEditMode = Boolean(client);
   const { refreshDashboard } = useDashboard();
 
   const [formData, setFormData] = useState({
@@ -31,48 +29,25 @@ const DeveloperFormModal = ({
   useEffect(() => {
     if (!open) return;
 
-    if (developer) {
-      setFormData({
-        name: developer.name || "",
-        email: developer.email || "",
-      });
-    } else {
-      setFormData({
-        name: "",
-        email: "",
-      });
-    }
+    setFormData({
+      name: client?.name || "",
+      email: client?.email || "",
+    });
 
     setErrors({});
-  }, [open, developer]);
-
-  useEffect(() => {
-    if (!open) return;
-
-    const handleEscape = (event) => {
-      if (event.key === "Escape" && !isSubmitting) {
-        onClose();
-      }
-    };
-
-    document.addEventListener("keydown", handleEscape);
-
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-    };
-  }, [open, isSubmitting, onClose]);
+  }, [open, client]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    setFormData((previous) => ({
-      ...previous,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
     }));
 
     if (errors[name]) {
-      setErrors((previous) => ({
-        ...previous,
+      setErrors((prev) => ({
+        ...prev,
         [name]: "",
       }));
     }
@@ -82,7 +57,7 @@ const DeveloperFormModal = ({
     const nextErrors = {};
 
     if (!formData.name.trim()) {
-      nextErrors.name = "Developer name is required.";
+      nextErrors.name = "Client name is required.";
     }
 
     if (!formData.email.trim()) {
@@ -110,13 +85,11 @@ const DeveloperFormModal = ({
       };
 
       if (isEditMode) {
-        await updateDeveloper(developer._id, payload);
-
-        toast.success("Developer updated successfully.");
+        await updateClient(client._id, payload);
+        toast.success("Client updated successfully.");
       } else {
-        await createDeveloper(payload);
-
-        toast.success("Developer created successfully.");
+        await createClient(payload);
+        toast.success("Client created successfully.");
       }
 
       await Promise.all([onSuccess?.(), fetchOverview(), refreshDashboard()]);
@@ -124,13 +97,13 @@ const DeveloperFormModal = ({
       onClose();
     } catch (error) {
       console.error(
-        `${isEditMode ? "Update" : "Create"} Developer Error:`,
+        `${isEditMode ? "Update" : "Create"} Client Error:`,
         error.response?.data || error.message,
       );
 
       toast.error(
         error.response?.data?.message ||
-          `Failed to ${isEditMode ? "update" : "create"} developer.`,
+          `Failed to ${isEditMode ? "update" : "create"} client.`,
       );
     } finally {
       setIsSubmitting(false);
@@ -152,13 +125,13 @@ const DeveloperFormModal = ({
         <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
           <div>
             <h2 className="text-lg font-semibold text-gray-900">
-              {isEditMode ? "Edit Developer" : "Add Developer"}
+              {isEditMode ? "Edit Client" : "Add Client"}
             </h2>
 
             <p className="mt-1 text-sm text-gray-500">
               {isEditMode
-                ? "Update developer account details."
-                : "Create a new developer account."}
+                ? "Update client account details."
+                : "Create a new client account."}
             </p>
           </div>
 
@@ -166,7 +139,7 @@ const DeveloperFormModal = ({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="cursor-pointer rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+            className="cursor-pointer rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 disabled:opacity-50"
           >
             <FiX className="text-xl" />
           </button>
@@ -175,20 +148,16 @@ const DeveloperFormModal = ({
         <form onSubmit={handleSubmit}>
           <div className="space-y-5 px-6 py-5">
             <div>
-              <label
-                htmlFor="developer-name"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
-                Developer Name
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                Client Name
               </label>
 
               <input
-                id="developer-name"
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Enter developer name"
+                placeholder="Enter client name"
                 disabled={isSubmitting}
                 className={`w-full rounded-lg border px-3 py-2.5 text-sm outline-none transition focus:ring-2 ${
                   errors.name
@@ -203,20 +172,16 @@ const DeveloperFormModal = ({
             </div>
 
             <div>
-              <label
-                htmlFor="developer-email"
-                className="mb-2 block text-sm font-medium text-gray-700"
-              >
+              <label className="mb-2 block text-sm font-medium text-gray-700">
                 Email Address
               </label>
 
               <input
-                id="developer-email"
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="developer@example.com"
+                placeholder="client@example.com"
                 disabled={isSubmitting}
                 className={`w-full rounded-lg border px-3 py-2.5 text-sm outline-none transition focus:ring-2 ${
                   errors.email
@@ -232,8 +197,8 @@ const DeveloperFormModal = ({
 
             {!isEditMode && (
               <div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-700">
-                A temporary password will be generated and sent to the developer
-                by email.
+                A temporary password will be generated and sent to the client by
+                email.
               </div>
             )}
           </div>
@@ -243,7 +208,7 @@ const DeveloperFormModal = ({
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="cursor-pointer rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50 disabled:opacity-50"
             >
               Cancel
             </button>
@@ -251,15 +216,15 @@ const DeveloperFormModal = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="cursor-pointer rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="cursor-pointer rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-60"
             >
               {isSubmitting
                 ? isEditMode
                   ? "Updating..."
                   : "Creating..."
                 : isEditMode
-                  ? "Update Developer"
-                  : "Create Developer"}
+                  ? "Update Client"
+                  : "Create Client"}
             </button>
           </div>
         </form>
@@ -268,4 +233,4 @@ const DeveloperFormModal = ({
   );
 };
 
-export default DeveloperFormModal;
+export default ClientFormModal;
